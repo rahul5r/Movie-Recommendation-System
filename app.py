@@ -18,7 +18,9 @@ def fetch_poster(movie_id):
     try:
         poster_link = data['Poster']
     except:
-        poster_link = None
+        poster_link = "https://raw.githubusercontent.com/rahul5r/Movie-Recommendation-System/refs/heads/main/dataset/no_poster.png"
+    
+    return poster_link
 
     
 
@@ -28,15 +30,16 @@ def recomend(movie):
     
     movie_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x:x[1])[1:6]
     
-    simiar_movies = []
-    movie_posters = []
+    recomended_movies = []
+    recomended_movie_posters = []
     
     for i in movie_list:
-        simiar_movies.append(movies.iloc[i[0]].title)
-        simiar_movies.append(movies.iloc[i[0]].id_imdb)
+        imdb_id = movies.iloc[i[0]].id_imdb
+        recomended_movies.append(movies.iloc[i[0]].title)
+        recomended_movie_posters.append(fetch_poster(imdb_id))
     
     
-    return simiar_movies
+    return recomended_movies, recomended_movie_posters
     
 
 
@@ -51,5 +54,21 @@ selected_movie = st.selectbox(
 )
 
 if st.button("Recomend"):
-    recomended_movies = recomend(selected_movie)
-    st.write(recomended_movies)
+    recomended_movies, recomended_movie_posters = recomend(selected_movie)
+    coll, col2, col3, col4, col5 = st.columns(5)
+    with coll:
+        st.text(recomended_movies[0])
+        st.image(recomended_movie_posters[0])
+    with col2:
+        st.text(recomended_movies[1])
+        st.image(recomended_movie_posters[1])
+    with col3:
+        st.text(recomended_movies[2])
+        st.image(recomended_movie_posters[2])
+    with col4:
+        st.text(recomended_movies[3])
+        st.image(recomended_movie_posters[3])
+    with col5:
+        st.text(recomended_movies[4])
+        st.image(recomended_movie_posters[4])
+    
