@@ -4,3 +4,4 @@ nltk
 scikit-learn
 streamlit
 pickle4
+requests
